@@ -3321,7 +3321,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_login
-layout activity_main
+layout activity_register
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row
 layout custom_dialog
