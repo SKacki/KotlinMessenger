@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "232021993759",
+    "project_id": "komunikat-ccfa2",
+    "storage_bucket": "komunikat-ccfa2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232021993759:android:857c4de52a567f437e682a",
+        "android_client_info": {
+          "package_name": "com.inzynierka.komunikat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "232021993759-bqgspi1gfembqom3s19pmal2a4l8nhdr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC18Pix0Mr7OItCaAi64PSxyR9lFEnSgQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232021993759-bqgspi1gfembqom3s19pmal2a4l8nhdr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
