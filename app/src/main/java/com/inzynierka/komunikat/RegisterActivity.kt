@@ -22,20 +22,18 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        //rejestracja
         register_register_btn.setOnClickListener {
+            //rejestracja
             registerUser()
         }
 
-        //przekierowanie do logowania
         register_redirect_to_login.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            //przekierowanie do logowania
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
         //dodawanie zdjęcia
         register_photo.setOnClickListener {
-            Log.d("Main","click!")
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent,0)
@@ -49,17 +47,11 @@ class RegisterActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
-            //widok do przerobienia
+            //ustawianie zdjęcia profilowego
             photoUri = data.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, photoUri)
             register_selectphoto_imageview.setImageBitmap(bitmap)
             register_photo.alpha = 0f
-
-            //photoUri = data.data
-            //val bitmapPhoto = MediaStore.Images.Media.getBitmap(contentResolver, photoUri)
-            //val bitmapDrawable = BitmapDrawable(bitmapPhoto)
-            //register_photo.setBackgroundDrawable(bitmapDrawable)
-            Log.d("Register", "hello photo: $photoUri")
         }
     }
 
@@ -83,16 +75,13 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 val result = it.result
                 if (result != null) {
-                    val user = result.user
-                    if (user != null) {
-                        Log.d("Main", "Sukces, uid nowego użytkownika: ${user.uid}")
+                    if (result.user != null) {
                         Toast.makeText(this, "Witaj $username :)", Toast.LENGTH_SHORT).show()
                         uploadPhotoToFB()
                     }
                 }
             }
             .addOnFailureListener {
-                Log.d("Main", "Błąd: ${it.message}")
                 Toast.makeText(this, "Ups. Coś poszło nie tak :(", Toast.LENGTH_SHORT).show()
             }
     }
@@ -108,8 +97,6 @@ class RegisterActivity : AppCompatActivity() {
                 Log.d("RegisterActivity", "Pomyślnie wysłano plik: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
-                    Log.d("RegisterActivity", "File Location: $it")
-
                     addUserToFB(it.toString())
                 }
             }
@@ -123,9 +110,12 @@ class RegisterActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
         val user = User(uid,register_username.text.toString(), photoUrl)
 
-        ref.setValue(user) //ogarnij to gówno, bo nie dodaje użytkownika do fb
+        ref.setValue(user)
             .addOnSuccessListener {
-                Log.d("RegisterActivity", "Pomyślnie zapisano użytkownika")
+                //przejdz do profilu (wyczyść przedtem aktywności na stacku
+                val intent = Intent(this, ThreadsActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
     }
 
