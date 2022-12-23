@@ -27,14 +27,21 @@
         android:testOnly="true"
         android:theme="@style/Theme.Komunikat" >
         <activity
-            android:name="com.inzynierka.komunikat.LoginActivity"
+            android:name="com.inzynierka.komunikat.NewMessageActivity"
             android:exported="false" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.inzynierka.komunikat.RegisterActivity"
+            android:name="com.inzynierka.komunikat.MessegesActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.inzynierka.komunikat.ThreadsActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +52,20 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+        </activity>
+        <activity
+            android:name="com.inzynierka.komunikat.LoginActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.inzynierka.komunikat.RegisterActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ThreadsActivity" />
         </activity>
 
         <service
@@ -152,6 +173,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:authorities="com.inzynierka.komunikat.com.squareup.picasso"
+            android:exported="false" />
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.inzynierka.komunikat.androidx-startup"

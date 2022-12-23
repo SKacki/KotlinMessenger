@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.inzynierka.komunikat.app-mergeDebugResources-33:/values-tr/values-tr.xml",
+            "outputFile": "com.inzynierka.komunikat.app-mergeDebugResources-38:/values-tr/values-tr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\sz1ka\\.gradle\\caches\\transforms-3\\ad971494b73b7d26a6dbe50ef1feeacf\\transformed\\appcompat-1.5.1\\res\\values-tr\\values-tr.xml",

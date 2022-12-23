@@ -122,5 +122,7 @@ class RegisterActivity : AppCompatActivity() {
 }
 
 class User (val uid: String, val name: String, val photoUrl: String){
+    //bezargumentowy konstruktor, do fetchowania użytkowników z fb
+    constructor() : this("","","")
 
 }

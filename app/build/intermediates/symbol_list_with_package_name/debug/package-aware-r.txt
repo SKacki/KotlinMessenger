@@ -2718,6 +2718,8 @@ id SHOW_PROGRESS
 id SYM
 id TOP_END
 id TOP_START
+id UserRow_avatar
+id UserRow_userName
 id accelerate
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
@@ -2849,6 +2851,7 @@ id custom
 id customPanel
 id cut
 id dark
+id dataBinding
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -2979,6 +2982,8 @@ id material_timepicker_ok_button
 id material_timepicker_view
 id material_value_index
 id matrix
+id menu_new_msg
+id menu_sign_out
 id message
 id middle
 id mini
@@ -3023,6 +3028,7 @@ id navigation_header_container
 id never
 id neverCompleteToEnd
 id neverCompleteToStart
+id new_message_recycler_view
 id noScroll
 id noState
 id none
@@ -3033,6 +3039,8 @@ id notification_main_column
 id notification_main_column_container
 id off
 id on
+id onAttachStateChangeListener
+id onDateChanged
 id onInterceptTouchReturnSwipe
 id outline
 id outward
@@ -3153,6 +3161,7 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
+id textWatcher
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
@@ -3326,7 +3335,10 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_login
+layout activity_messeges
+layout activity_new_message
 layout activity_register
+layout activity_threads
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row
 layout custom_dialog
@@ -3403,6 +3415,8 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout user_row_new_message
+menu navigation_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
