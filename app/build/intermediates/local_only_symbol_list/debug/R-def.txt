@@ -35,6 +35,7 @@ id register_password
 id register_photo
 id register_redirect_to_login
 id register_register_btn
+id register_selectphoto_imageview
 id register_username
 layout activity_login
 layout activity_register
@@ -42,6 +43,7 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
 string default_web_client_id
+string firebase_database_url
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id

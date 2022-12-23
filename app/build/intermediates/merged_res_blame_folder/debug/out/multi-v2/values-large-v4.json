@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.inzynierka.komunikat.app-mergeDebugResources-32:/values-large-v4/values-large-v4.xml",
+            "outputFile": "com.inzynierka.komunikat.app-mergeDebugResources-33:/values-large-v4/values-large-v4.xml",
             "map": [
                 {
                     "source": "C:\\Users\\sz1ka\\.gradle\\caches\\transforms-3\\3b208a6075ef8bdfb139a84166cdac27\\transformed\\material-1.7.0\\res\\values-large-v4\\values-large-v4.xml",

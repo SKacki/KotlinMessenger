@@ -11,6 +11,8 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_register.*
 import java.util.UUID
@@ -47,12 +49,17 @@ class RegisterActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+            //widok do przerobienia
             photoUri = data.data
-            val bitmapPhoto = MediaStore.Images.Media.getBitmap(contentResolver, photoUri)
-            val bitmapDrawable = BitmapDrawable(bitmapPhoto)
-            register_photo.setBackgroundDrawable(bitmapDrawable)
-            Log.d("Register", "hello photo: $photoUri")
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, photoUri)
+            register_selectphoto_imageview.setImageBitmap(bitmap)
+            register_photo.alpha = 0f
 
+            //photoUri = data.data
+            //val bitmapPhoto = MediaStore.Images.Media.getBitmap(contentResolver, photoUri)
+            //val bitmapDrawable = BitmapDrawable(bitmapPhoto)
+            //register_photo.setBackgroundDrawable(bitmapDrawable)
+            Log.d("Register", "hello photo: $photoUri")
         }
     }
 
@@ -90,15 +97,24 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 
-    private fun uploadPhotoToFB()
-    {
-        if(photoUri == null) return
-        val ref = FirebaseStorage.getInstance().getReference("/images/" + UUID.randomUUID().toString())
+    private fun uploadPhotoToFB() {
+        if (photoUri == null) return
+
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+
         ref.putFile(photoUri!!)
             .addOnSuccessListener {
+                Log.d("RegisterActivity", "Pomyślnie wysłano plik: ${it.metadata?.path}")
+
                 ref.downloadUrl.addOnSuccessListener {
+                    Log.d("RegisterActivity", "File Location: $it")
+
                     addUserToFB(it.toString())
                 }
+            }
+            .addOnFailureListener {
+                Log.d("RegisterActivity", "Nie udało się wysłać pliku: ${it.message}")
             }
     }
 
@@ -107,7 +123,7 @@ class RegisterActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
         val user = User(uid,register_username.text.toString(), photoUrl)
 
-        ref.setValue(user)
+        ref.setValue(user) //ogarnij to gówno, bo nie dodaje użytkownika do fb
             .addOnSuccessListener {
                 Log.d("RegisterActivity", "Pomyślnie zapisano użytkownika")
             }

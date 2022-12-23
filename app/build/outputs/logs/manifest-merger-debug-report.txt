@@ -46,6 +46,7 @@ MERGED from [androidx.loader:loader:1.0.0] C:\Users\sz1ka\.gradle\caches\transfo
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\sz1ka\.gradle\caches\transforms-3\d808aeb4ccd62e846d0060fc6a86e8cd\transformed\lifecycle-viewmodel-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\sz1ka\.gradle\caches\transforms-3\50169131df53a9688948401aee12838a\transformed\lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core-ktx:1.8.0] C:\Users\sz1ka\.gradle\caches\transforms-3\4ba3e6082a4475f2993e41e85a63570e\transformed\core-ktx-1.8.0\AndroidManifest.xml:2:1-9:12
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\sz1ka\.gradle\caches\transforms-3\7379ffb2ab4bec1f3a3bc3c60726e159\transformed\circleimageview-3.1.0\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\sz1ka\.gradle\caches\transforms-3\5b06fd80e526ac174c778c976c730113\transformed\savedstate-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\sz1ka\.gradle\caches\transforms-3\7220b6278a2e7c510a7ba9378dd98944\transformed\emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\sz1ka\.gradle\caches\transforms-3\cb32d61df2bf461baf640e6ba26d73b1\transformed\emoji2-1.2.0\AndroidManifest.xml:17:1-35:12
@@ -150,6 +151,8 @@ MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users
 MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\sz1ka\.gradle\caches\transforms-3\9c6354d23500c0048276ecfb37d57834\transformed\firebase-measurement-connector-19.0.0\AndroidManifest.xml:22:5-23:19
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\sz1ka\.gradle\caches\transforms-3\897d0b8f4848d71a6e00f3430aaa62ef\transformed\play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\sz1ka\.gradle\caches\transforms-3\897d0b8f4848d71a6e00f3430aaa62ef\transformed\play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\sz1ka\.gradle\caches\transforms-3\7379ffb2ab4bec1f3a3bc3c60726e159\transformed\circleimageview-3.1.0\AndroidManifest.xml:9:5-20
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\sz1ka\.gradle\caches\transforms-3\7379ffb2ab4bec1f3a3bc3c60726e159\transformed\circleimageview-3.1.0\AndroidManifest.xml:9:5-20
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\sz1ka\.gradle\caches\transforms-3\cb32d61df2bf461baf640e6ba26d73b1\transformed\emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\sz1ka\.gradle\caches\transforms-3\cb32d61df2bf461baf640e6ba26d73b1\transformed\emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.core:core:1.8.0] C:\Users\sz1ka\.gradle\caches\transforms-3\bb29823574370f1bac0a184f0f3b9285\transformed\core-1.8.0\AndroidManifest.xml:24:5-89
@@ -296,6 +299,8 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\s
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\sz1ka\.gradle\caches\transforms-3\50169131df53a9688948401aee12838a\transformed\lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core-ktx:1.8.0] C:\Users\sz1ka\.gradle\caches\transforms-3\4ba3e6082a4475f2993e41e85a63570e\transformed\core-ktx-1.8.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.core:core-ktx:1.8.0] C:\Users\sz1ka\.gradle\caches\transforms-3\4ba3e6082a4475f2993e41e85a63570e\transformed\core-ktx-1.8.0\AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\sz1ka\.gradle\caches\transforms-3\7379ffb2ab4bec1f3a3bc3c60726e159\transformed\circleimageview-3.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\sz1ka\.gradle\caches\transforms-3\7379ffb2ab4bec1f3a3bc3c60726e159\transformed\circleimageview-3.1.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\sz1ka\.gradle\caches\transforms-3\5b06fd80e526ac174c778c976c730113\transformed\savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\sz1ka\.gradle\caches\transforms-3\5b06fd80e526ac174c778c976c730113\transformed\savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\sz1ka\.gradle\caches\transforms-3\7220b6278a2e7c510a7ba9378dd98944\transformed\emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
