@@ -1,8 +1,9 @@
-package com.inzynierka.komunikat
+package com.inzynierka.komunikat.Activities
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.inzynierka.komunikat.R
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {

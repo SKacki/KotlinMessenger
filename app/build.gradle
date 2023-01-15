@@ -6,6 +6,11 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+androidExtensions
+        {
+            experimental = true
+        }
+
 android {
     namespace 'com.inzynierka.komunikat'
     compileSdk 32

@@ -27,6 +27,13 @@
         android:testOnly="true"
         android:theme="@style/Theme.Komunikat" >
         <activity
+            android:name="com.inzynierka.komunikat.Activities.ChatActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MessegesActivity" />
+        </activity>
+        <activity
             android:name="com.inzynierka.komunikat.NewMessageActivity"
             android:exported="false" >
             <meta-data
@@ -34,14 +41,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.inzynierka.komunikat.MessegesActivity"
+            android:name="com.inzynierka.komunikat.Activities.MessegesActivity"
             android:exported="false" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.inzynierka.komunikat.ThreadsActivity"
+            android:name="com.inzynierka.komunikat.Activities.ThreadsActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,7 +61,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.inzynierka.komunikat.LoginActivity"
+            android:name="com.inzynierka.komunikat.Activities.LoginActivity"
             android:exported="false" >
             <meta-data
                 android:name="android.app.lib_name"
@@ -65,7 +72,7 @@
             android:exported="false" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ThreadsActivity" />
+                android:value=".Activities.ThreadsActivity" />
         </activity>
 
         <service
