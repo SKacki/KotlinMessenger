@@ -2,6 +2,7 @@ package com.inzynierka.komunikat
 
 import android.content.ClipData
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,12 @@ class NewMessageActivity : AppCompatActivity() {
         getUsers()
     }
 
+    companion object //objekt do przekazania jako extra do następnej aktywności
+    {
+        val USER_KEY = "USER_KEY"
+
+    }
+
 private fun getUsers() {
     val ref = FirebaseDatabase.getInstance().getReference("/users")
     ref.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -39,15 +46,20 @@ private fun getUsers() {
                 if (user != null) {
                     adapter.add(UserItem(user))
                 }
-            }
+            adapter.setOnItemClickListener{item, view ->
+
+                val userItem = item as UserItem //trzeba rzutować na userItem, inaczej nie da się przekazać
+                val intent = Intent(view.context, ChatActivity::class.java)
+                intent.putExtra(USER_KEY, userItem.user) //przekazanie dodatkowych argumentów do intentu
+                startActivity(intent)
+                finish() }
+                }
             new_message_recycler_view.adapter = adapter
-        }
+            }
 
-        override fun onCancelled(p0: DatabaseError) {
-
-        }
-    })
-}
+        override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
 }
 
 class UserItem(val user:User) : Item<GroupieViewHolder>() {

@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
         val email = login_email.text.toString()
 
         Log.d("MainActivity", "Email: " + email + ", hasło: " + password)
-        //tutaj dodaj logikę logowania
+        //TODO: dodaj logikę logowania
     }
 
 }
