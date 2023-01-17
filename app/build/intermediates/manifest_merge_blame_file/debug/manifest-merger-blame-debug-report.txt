@@ -63,8 +63,8 @@
 35        </activity>
 36        <activity
 36-->D:\Komunikat\app\src\main\AndroidManifest.xml:22:9-28:20
-37            android:name="com.inzynierka.komunikat.NewMessageActivity"
-37-->D:\Komunikat\app\src\main\AndroidManifest.xml:23:13-47
+37            android:name="com.inzynierka.komunikat.Activities.NewMessageActivity"
+37-->D:\Komunikat\app\src\main\AndroidManifest.xml:23:13-58
 38            android:exported="false" >
 38-->D:\Komunikat\app\src\main\AndroidManifest.xml:24:13-37
 39            <meta-data
@@ -126,8 +126,8 @@
 69        </activity>
 70        <activity
 70-->D:\Komunikat\app\src\main\AndroidManifest.xml:56:9-62:20
-71            android:name="com.inzynierka.komunikat.RegisterActivity"
-71-->D:\Komunikat\app\src\main\AndroidManifest.xml:57:13-45
+71            android:name="com.inzynierka.komunikat.Activities.RegisterActivity"
+71-->D:\Komunikat\app\src\main\AndroidManifest.xml:57:13-56
 72            android:exported="false" >
 72-->D:\Komunikat\app\src\main\AndroidManifest.xml:58:13-37
 73            <meta-data

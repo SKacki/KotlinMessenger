@@ -2937,7 +2937,6 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
-id imageView
 id immediateStop
 id included
 id indeterminate
@@ -2999,7 +2998,9 @@ id month_navigation_previous
 id month_title
 id motion_base
 id msg_from
+id msg_from_usr_pic
 id msg_to
+id msg_to_usr_pic
 id mtrl_anchor_parent
 id mtrl_calendar_day_selector_frame
 id mtrl_calendar_days_of_week

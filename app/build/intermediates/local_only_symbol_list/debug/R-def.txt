@@ -31,7 +31,6 @@ drawable select_photo
 id UserRow_avatar
 id UserRow_userName
 id enter_msg_chat
-id imageView
 id login_email
 id login_login_btn
 id login_password
@@ -39,7 +38,9 @@ id login_redirect_to_register
 id menu_new_msg
 id menu_sign_out
 id msg_from
+id msg_from_usr_pic
 id msg_to
+id msg_to_usr_pic
 id new_message_recycler_view
 id recycler_view_chat
 id register_email

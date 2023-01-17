@@ -6,15 +6,28 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
-import com.inzynierka.komunikat.NewMessageActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.inzynierka.komunikat.R
-import com.inzynierka.komunikat.RegisterActivity
+import com.inzynierka.komunikat.classes.User
+
 
 class ThreadsActivity : AppCompatActivity() {
+
+    companion object{
+        var user : User? = null
+
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_threads)
 
+        getCurrentUser()
         verifyIfUserIsLoggedIn()
     }
 
@@ -47,6 +60,19 @@ class ThreadsActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.navigation_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun getCurrentUser(){
+        val ref = FirebaseDatabase.getInstance().getReference("/users/${FirebaseAuth.getInstance().uid}")
+        ref.addListenerForSingleValueEvent (object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                user = snapshot.getValue(User::class.java)
+            }
+            //tutaj nic nie nadpisuję
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+
     }
 
 }

@@ -8,7 +8,6 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.inzynierka.komunikat.NewMessageActivity
 import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.ChatMsgFromItem
 import com.inzynierka.komunikat.classes.ChatMsgToItem
@@ -17,23 +16,25 @@ import com.inzynierka.komunikat.classes.message
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.chat_msg_from_row.*
+
 
 
 class ChatActivity : AppCompatActivity() {
 
     val adapter = GroupAdapter<GroupieViewHolder>()
+    var recipient : User? = null
+    val sender : User? = ThreadsActivity.user //nie wiem czy to czegoś nie wysadzi :)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
-        supportActionBar?.title = user?.name
+        recipient = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+        supportActionBar?.title = recipient?.name
 
         recycler_view_chat.adapter = adapter
 
-        //czujka do nowych wiadomości; jak nie działa to przenies wywołanie funkcji linijkę wyżej
+        //czujka do nowych wiadomości;
         refreshMessages()
         //wysyłanie wiadomości
         send_btn_chat.setOnClickListener {
@@ -76,10 +77,10 @@ class ChatActivity : AppCompatActivity() {
                     if(msg != null)
                     {
                         if(msg.fromId == FirebaseAuth.getInstance().uid) {
-                            adapter.add(ChatMsgFromItem(msg.text))
+                            adapter.add(ChatMsgFromItem(msg.text, sender!!))
                         }
                         else {
-                            adapter.add(ChatMsgToItem(msg.text))
+                            adapter.add(ChatMsgToItem(msg.text, recipient!!))
                         }
                     }
 

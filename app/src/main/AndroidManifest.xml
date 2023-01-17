@@ -20,7 +20,7 @@
                 android:value=".Activities.MessegesActivity" />
         </activity>
         <activity
-            android:name=".NewMessageActivity"
+            android:name=".Activities.NewMessageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -54,7 +54,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Activities.RegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

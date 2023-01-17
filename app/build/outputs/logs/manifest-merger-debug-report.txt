@@ -211,12 +211,12 @@ ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:18:13-20:64
 		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:20:17-61
 	android:name
 		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:19:17-63
-activity#com.inzynierka.komunikat.NewMessageActivity
+activity#com.inzynierka.komunikat.Activities.NewMessageActivity
 ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:22:9-28:20
 	android:exported
 		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:24:13-37
 	android:name
-		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:23:13-47
+		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:23:13-58
 meta-data#android.app.lib_name
 ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:25:13-27:36
 	android:value
@@ -251,12 +251,12 @@ ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:49:9-55:20
 		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:51:13-37
 	android:name
 		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:50:13-53
-activity#com.inzynierka.komunikat.RegisterActivity
+activity#com.inzynierka.komunikat.Activities.RegisterActivity
 ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:56:9-62:20
 	android:exported
 		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:58:13-37
 	android:name
-		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:57:13-45
+		ADDED from D:\Komunikat\app\src\main\AndroidManifest.xml:57:13-56
 uses-sdk
 INJECTED from D:\Komunikat\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\Komunikat\app\src\main\AndroidManifest.xml
