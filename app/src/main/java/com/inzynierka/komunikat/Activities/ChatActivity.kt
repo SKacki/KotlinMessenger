@@ -45,30 +45,30 @@ class ChatActivity : AppCompatActivity() {
 
     private fun sendMsg()
     {
-        //referencja do bazy danych
-        val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
-
         //dane do zbudowania obiektu wiadomość
-        val msgId = ref.key
         val fromId = FirebaseAuth.getInstance().uid
         val toId = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)?.uid
         val txt = enter_msg_chat.text.toString()
 
         //zabezpieczenie na wypadek nulli w którymś z id
         if(fromId == null || toId == null) {return}
+        //referencja do bazy danych
+        val refSender = FirebaseDatabase.getInstance().getReference("/messages/$fromId/$toId").push()
+        val refRecipient = FirebaseDatabase.getInstance().getReference("/messages/$toId/$fromId").push()
 
-        val msgObj = message(msgId!!, fromId, toId, txt,  System.currentTimeMillis())
-        ref.setValue(msgObj)
-            .addOnSuccessListener {
-                Log.d("Chat", "wysyłam wiadomość do bazy danych")
-            }
+        val msgObj = message(refSender.key!!, fromId, toId, txt,  System.currentTimeMillis())
+        refSender.setValue(msgObj)
+        refRecipient.setValue(msgObj)
         enter_msg_chat.text.clear()
+        recycler_view_chat.scrollToPosition(adapter.itemCount - 1)
 
     }
 
     private fun refreshMessages()
     {
-        val ref = FirebaseDatabase.getInstance().getReference("/messages")
+        //sender/recipient = fromId/toId
+        val ref = FirebaseDatabase.getInstance().getReference("/messages/${sender?.uid}/${recipient?.uid}")
+
         ref.addChildEventListener(object : ChildEventListener
             {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
