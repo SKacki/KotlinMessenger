@@ -3180,6 +3180,10 @@ id textinput_helper_text
 id textinput_placeholder
 id textinput_prefix_text
 id textinput_suffix_text
+id thread_last_msg
+id thread_picture
+id thread_title
+id threads_recycler_view
 id time
 id title
 id titleDividerNoCustom
@@ -3427,6 +3431,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout threads_row
 layout user_row_new_message
 menu navigation_menu
 mipmap ic_launcher

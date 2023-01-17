@@ -51,6 +51,10 @@ id register_register_btn
 id register_selectphoto_imageview
 id register_username
 id send_btn_chat
+id thread_last_msg
+id thread_picture
+id thread_title
+id threads_recycler_view
 layout activity_chat
 layout activity_login
 layout activity_messeges
@@ -59,6 +63,7 @@ layout activity_register
 layout activity_threads
 layout chat_msg_from_row
 layout chat_msg_to_row
+layout threads_row
 layout user_row_new_message
 menu navigation_menu
 mipmap ic_launcher

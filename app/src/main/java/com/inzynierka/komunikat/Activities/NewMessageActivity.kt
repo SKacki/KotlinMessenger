@@ -39,6 +39,7 @@ class NewMessageActivity : AppCompatActivity() {
 
                 p0.children.forEach {
                     val user = it.getValue(User::class.java)
+                    //TODO: do usunięcia z listy aktualnie zalogowany użytkownik
                     if (user != null) {
                         adapter.add(UserItem(user))
                     }

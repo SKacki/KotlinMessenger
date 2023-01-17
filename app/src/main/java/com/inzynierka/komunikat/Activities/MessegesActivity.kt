@@ -10,5 +10,6 @@ class MessegesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_messeges)
 
         supportActionBar?.title = "Do kogo piszemy?"
+        //TODO: aktywność będzie do wyjebania. Pamiętaj żeby posprzątać layout
     }
 }

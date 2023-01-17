@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-merged_res-40:\\layout_threads_row.xml.flat",
+        "source": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-main-42:\\layout\\threads_row.xml"
+    },
+    {
         "merged": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-merged_res-40:\\menu_navigation_menu.xml.flat",
         "source": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-main-42:\\menu\\navigation_menu.xml"
     },
@@ -10,10 +14,6 @@
     {
         "merged": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-merged_res-40:\\layout_chat_msg_from_row.xml.flat",
         "source": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-main-42:\\layout\\chat_msg_from_row.xml"
-    },
-    {
-        "merged": "com.inzynierka.komunikat.app-merged_res-40:/layout_chat_msg_from_row.xml.flat",
-        "source": "com.inzynierka.komunikat.app-main-42:/layout/chat_msg_from_row.xml"
     },
     {
         "merged": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-merged_res-40:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
@@ -46,6 +46,10 @@
     {
         "merged": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-merged_res-40:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-main-42:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.inzynierka.komunikat.app-merged_res-40:/layout_threads_row.xml.flat",
+        "source": "com.inzynierka.komunikat.app-main-42:/layout/threads_row.xml"
     },
     {
         "merged": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-merged_res-40:\\layout_activity_threads.xml.flat",
@@ -94,10 +98,6 @@
     {
         "merged": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-merged_res-40:\\drawable_round_btn.xml.flat",
         "source": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-main-42:\\drawable\\round_btn.xml"
-    },
-    {
-        "merged": "com.inzynierka.komunikat.app-merged_res-40:/layout_chat_msg_to_row.xml.flat",
-        "source": "com.inzynierka.komunikat.app-main-42:/layout/chat_msg_to_row.xml"
     },
     {
         "merged": "C:\\Users\\sz1ka\\.gradle\\daemon\\7.4\\com.inzynierka.komunikat.app-merged_res-40:\\mipmap-hdpi_ic_launcher_round.webp.flat",

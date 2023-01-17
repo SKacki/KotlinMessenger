@@ -12,7 +12,7 @@ import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.ChatMsgFromItem
 import com.inzynierka.komunikat.classes.ChatMsgToItem
 import com.inzynierka.komunikat.classes.User
-import com.inzynierka.komunikat.classes.message
+import com.inzynierka.komunikat.classes.Message
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -55,10 +55,15 @@ class ChatActivity : AppCompatActivity() {
         //referencja do bazy danych
         val refSender = FirebaseDatabase.getInstance().getReference("/messages/$fromId/$toId").push()
         val refRecipient = FirebaseDatabase.getInstance().getReference("/messages/$toId/$fromId").push()
+        val refLastMsgSender = FirebaseDatabase.getInstance().getReference("/last_messages/$fromId/$toId").push() //Nie wiem czy ten push jest potrzebny
+        val refLastMsgRecipient = FirebaseDatabase.getInstance().getReference("/last_messages/$toId/$fromId").push()
 
-        val msgObj = message(refSender.key!!, fromId, toId, txt,  System.currentTimeMillis())
+        val msgObj = Message(refSender.key!!, fromId, toId, txt,  System.currentTimeMillis())
         refSender.setValue(msgObj)
         refRecipient.setValue(msgObj)
+        refLastMsgSender.setValue(msgObj)
+        refLastMsgRecipient.setValue(msgObj)
+
         enter_msg_chat.text.clear()
         recycler_view_chat.scrollToPosition(adapter.itemCount - 1)
 
@@ -72,7 +77,7 @@ class ChatActivity : AppCompatActivity() {
         ref.addChildEventListener(object : ChildEventListener
             {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    val msg = snapshot.getValue(message::class.java)
+                    val msg = snapshot.getValue(Message::class.java)
 
                     if(msg != null)
                     {
@@ -83,7 +88,7 @@ class ChatActivity : AppCompatActivity() {
                             adapter.add(ChatMsgToItem(msg.text, recipient!!))
                         }
                     }
-
+                    recycler_view_chat.scrollToPosition(adapter.itemCount - 1) // przewijanie do końca czatu
                 }
                 //tych funkcji nie nadpisuję, ale trzeba je zaimplementować
                 override fun onCancelled(error: DatabaseError) {}
