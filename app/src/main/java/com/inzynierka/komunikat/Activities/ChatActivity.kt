@@ -55,10 +55,10 @@ class ChatActivity : AppCompatActivity() {
         //referencja do bazy danych
         val refSender = FirebaseDatabase.getInstance().getReference("/messages/$fromId/$toId").push()
         val refRecipient = FirebaseDatabase.getInstance().getReference("/messages/$toId/$fromId").push()
-        val refLastMsgSender = FirebaseDatabase.getInstance().getReference("/last_messages/$fromId/$toId").push() //Nie wiem czy ten push jest potrzebny
-        val refLastMsgRecipient = FirebaseDatabase.getInstance().getReference("/last_messages/$toId/$fromId").push()
+        val refLastMsgSender = FirebaseDatabase.getInstance().getReference("/last_messages/$fromId/$toId")
+        val refLastMsgRecipient = FirebaseDatabase.getInstance().getReference("/last_messages/$toId/$fromId")
 
-        val msgObj = Message(refSender.key!!, fromId, toId, txt,  System.currentTimeMillis())
+        val msgObj = Message(refSender.key!!, fromId, toId, txt,  System.currentTimeMillis()/1000)
         refSender.setValue(msgObj)
         refRecipient.setValue(msgObj)
         refLastMsgSender.setValue(msgObj)
@@ -97,4 +97,6 @@ class ChatActivity : AppCompatActivity() {
                 override fun onChildRemoved(snapshot: DataSnapshot) {}
             })
     }
+
+
 }

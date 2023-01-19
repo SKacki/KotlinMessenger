@@ -50,7 +50,7 @@ class MsgThread(val msg : Message) : Item<GroupieViewHolder>() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.thread_last_msg.text = msg.text
-        val lastMsgUsrId = if(msg.fromId == FirebaseAuth.getInstance().uid) { msg.toId } else{ msg.fromId }
+        val lastMsgUsrId : String = if(msg.fromId == FirebaseAuth.getInstance().uid) { msg.toId } else{ msg.fromId }
         val ref = FirebaseDatabase.getInstance().getReference("/users/$lastMsgUsrId")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {

@@ -35,12 +35,6 @@ class ThreadsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_threads)
 
-        //pamiętaj żeby to wywalić
-        val tst_msg : Message = Message("-NM0yZLbpIHIpgYwdD54","zCVESgpmDDWT4yq2bjSxSclHrNZ2","AZMTFDsm8HNU5rG2HpSLQ7VzI2k2","Hey Chad",1673996685281)
-        adapter.add(MsgThread(tst_msg))
-        adapter.add(MsgThread(tst_msg))
-        //
-
         threads_recycler_view.adapter = adapter
         threads_recycler_view.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
         adapter.setOnItemClickListener{ item, view ->
@@ -51,7 +45,7 @@ class ThreadsActivity : AppCompatActivity() {
 
         getCurrentUser()
         verifyIfUserIsLoggedIn()
-        //updateLatestMessage() //TODO: gdzieś w tej funkcji jest nullpointer
+        updateLatestMessage()
     }
 
     private fun verifyIfUserIsLoggedIn() {
@@ -100,17 +94,17 @@ class ThreadsActivity : AppCompatActivity() {
 
     private fun updateLatestMessage(){
         val usrUid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/last_messages/$usrUid")
-        ref.addChildEventListener(object : ChildEventListener{
+        val reference = FirebaseDatabase.getInstance().getReference("/last_messages/$usrUid")
+        reference.addChildEventListener(object : ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val message = snapshot.getValue(Message::class.java) ?: return
+                val message : Message = snapshot.getValue(Message::class.java) ?: return
                 lastMsgMap[snapshot.key!!] = message
                 updateRecyclerView()
             }
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                //val message = snapshot.getValue(Message::class.java) ?: return
-                //lastMsgMap[snapshot.key!!] = message
-                //updateRecyclerView()
+                val message = snapshot.getValue(Message::class.java) ?: return
+                lastMsgMap[snapshot.key!!] = message
+                updateRecyclerView()
             }
             override fun onCancelled(error: DatabaseError) {}
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
