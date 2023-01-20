@@ -2,14 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id = "@+id/goToAccount"
+        android:icon="@drawable/ic_account"
+        android:title="Moje konto"
+        app:showAsAction = "ifRoom"
+        />
+    <item
         android:id = "@+id/menu_new_msg"
+        android:icon="@drawable/ic_message"
         android:title="Nowa wiadomość"
         app:showAsAction = "ifRoom"
         />
     <item
         android:id = "@+id/menu_sign_out"
+        android:icon="@drawable/ic_logout"
         android:title="Wyloguj"
         app:showAsAction = "ifRoom"
         />
+
 
 </menu>

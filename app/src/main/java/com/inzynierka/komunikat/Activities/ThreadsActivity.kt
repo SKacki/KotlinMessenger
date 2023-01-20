@@ -58,7 +58,7 @@ class ThreadsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //switch po itemach w menu
+        //switch po itemach w menu nawigacyjnym
         when (item?.itemId) {
             R.id.menu_new_msg -> {
                 val intent = Intent(this, NewMessageActivity::class.java)
@@ -70,6 +70,14 @@ class ThreadsActivity : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
+
+            R.id.goToAccount -> {
+                val intent = Intent(this, ProfileActivity::class.java)
+                //intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+
+
         }
         return super.onOptionsItemSelected(item)
     }

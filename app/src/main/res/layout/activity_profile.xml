@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ProfileActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_profile_picture"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:civ_border_width="4dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/profile_user_name"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/Black"
+        android:textColorHint="@color/Black"
+        android:textIsSelectable="true"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/profile_profile_picture"
+        app:layout_constraintStart_toStartOf="@+id/profile_profile_picture"
+        app:layout_constraintTop_toBottomOf="@+id/profile_profile_picture" />
+
+    <Button
+        android:id="@+id/profile_firends_list_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint = "@color/purple_500"
+        android:text="Znajomi"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/profile_user_name"
+        app:layout_constraintStart_toStartOf="@+id/profile_user_name"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_name" />
+
+    <Button
+        android:id="@+id/profile_edit_profile_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Edytuj profil"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/profile_firends_list_btn"
+        app:layout_constraintStart_toStartOf="@+id/profile_firends_list_btn"
+        app:layout_constraintTop_toBottomOf="@+id/profile_firends_list_btn" />
+
+    <Button
+        android:id="@+id/profile_delete_account_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Usuń konto"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/profile_edit_profile_btn"
+        app:layout_constraintStart_toStartOf="@+id/profile_edit_profile_btn"
+        app:layout_constraintTop_toBottomOf="@+id/profile_edit_profile_btn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
