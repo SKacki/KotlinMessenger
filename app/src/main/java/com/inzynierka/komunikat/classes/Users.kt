@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.user_row_new_message.view.*
 
 @Parcelize
-class User (val uid: String, val name: String, val photoUrl: String) : Parcelable {
+data class User (val uid: String, val name: String, val photoUrl: String) : Parcelable {
     //bezargumentowy konstruktor, do fetchowania użytkowników z fb
     constructor() : this("","","")
 
@@ -22,4 +22,8 @@ class UserItem(val user:User) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.user_row_new_message
     }
+}
+
+data class Friend(val fiendUid : String){
+
 }

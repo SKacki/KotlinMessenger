@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.chat_msg_to_row.view.*
 import kotlinx.android.synthetic.main.threads_row.view.*
 
 //klasa wiadomość - ułatwia przesyłanie info do bazy danych;
-class Message(val msgId : String, val fromId : String, val toId : String, val text : String, val timeStamp : Long)
+data class Message(val msgId : String, val fromId : String, val toId : String, val text : String, val timeStamp : Long)
 {constructor() : this("","","","",0)
 }
 
