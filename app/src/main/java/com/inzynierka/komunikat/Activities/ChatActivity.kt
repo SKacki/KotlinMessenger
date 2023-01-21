@@ -38,7 +38,8 @@ class ChatActivity : AppCompatActivity() {
         refreshMessages()
         //wysyłanie wiadomości
         send_btn_chat.setOnClickListener {
-            sendMsg()
+            if(!enter_msg_chat.text.isEmpty())
+                { sendMsg() }
         }
 
     }
