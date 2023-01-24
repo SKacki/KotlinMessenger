@@ -4,5 +4,4 @@ package com.inzynierka.komunikat.classes
 //TODO:wysyłanie zdjęć
 //TODO:Powiadomienia push
 
-class shittodo {
-}
+class shittodo

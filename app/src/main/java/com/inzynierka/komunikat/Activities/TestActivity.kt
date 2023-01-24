@@ -1,4 +1,4 @@
-package com.inzynierka.komunikat.Activities
+package com.inzynierka.komunikat.activities
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,14 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.app.NotificationBuilderWithBuilderAccessor
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.graphics.createBitmap
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.FirebaseDatabase
 import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.Friend
@@ -41,13 +37,16 @@ class TestActivity : AppCompatActivity() {
 
     }
 
-    private fun createChannel(){
-        if(Build.VERSION.SDK_INT>Build.VERSION_CODES.O){
+    private fun createChannel() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
             val name = "Test notification"
             val descriptionTxt = "Notification description"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, name, importance).apply{ description = descriptionTxt }
-            val manager : NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val channel = NotificationChannel(channelId, name, importance).apply {
+                description = descriptionTxt
+            }
+            val manager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel)
         }
     }
@@ -57,9 +56,10 @@ class TestActivity : AppCompatActivity() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
-        val pendingIntent : PendingIntent = PendingIntent.getActivity(this, 0,intent,0)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
-        val bitmap = BitmapFactory.decodeResource(applicationContext.resources, R.drawable.round_btn)
+        val bitmap =
+            BitmapFactory.decodeResource(applicationContext.resources, R.drawable.round_btn)
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.round_btn)
@@ -70,18 +70,16 @@ class TestActivity : AppCompatActivity() {
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        with(NotificationManagerCompat.from(this)){
+        with(NotificationManagerCompat.from(this)) {
             notify(notificationId, notificationBuilder.build())
         }
-
     }
 
     private fun addToFriends() {
         val currentUser = "friend_1_uid" //FirebaseAuth.getInstance().uid
         val newFriend = "friend_3_uid" //tutaj weź uid wybranego użytkownika
-        val friend1 : Friend = Friend(currentUser!!)
-        val friend2 : Friend = Friend(newFriend!!)
-
+        val friend1: Friend = Friend(currentUser, "polykarp200")
+        val friend2: Friend = Friend(newFriend, "xXxMasterxXx")
 
         val ref = FirebaseDatabase.getInstance().getReference("/friends/$currentUser").push()
         ref.setValue(friend2)

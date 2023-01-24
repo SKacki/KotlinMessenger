@@ -1,4 +1,5 @@
 package com.inzynierka.komunikat.classes
+
 import android.os.Parcelable
 import com.inzynierka.komunikat.R
 import com.squareup.picasso.Picasso
@@ -8,22 +9,31 @@ import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.user_row_new_message.view.*
 
 @Parcelize
-data class User (val uid: String, val name: String, val photoUrl: String) : Parcelable {
-    //bezargumentowy konstruktor, do fetchowania użytkowników z fb
-    constructor() : this("","","")
+data class User(
+    val uid: String = "",
+    val name: String = "",
+    val photoUrl: String = DEFAULT_PHOTO,
+    val friends: Map<String, User> = mapOf(),
+) : Parcelable {
 
+    companion object {
+        const val DEFAULT_PHOTO =
+            "https://firebasestorage.googleapis.com/v0/b/komunikat-ccfa2.appspot.com/o/images%2Ff4e19f25-15d7-48a3-ad1e-4d15f5e3a3f5?alt=media&token=640d83cf-cbf8-405c-af11-3760a134b6a8"
+    }
 }
 
-class UserItem(val user:User) : Item<GroupieViewHolder>() {
+class UserItemGroupieViewHolder(val user: User) : Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        viewHolder.itemView.UserRow_userName.text=user.name
+        viewHolder.itemView.UserRow_userName.text = user.name
         Picasso.get().load(user.photoUrl).into(viewHolder.itemView.UserRow_avatar)
     }
+
     override fun getLayout(): Int {
         return R.layout.user_row_new_message
     }
 }
 
-data class Friend(val fiendUid : String){
-
-}
+data class Friend(
+    val friendUid: String,
+    val friendName: String,
+)

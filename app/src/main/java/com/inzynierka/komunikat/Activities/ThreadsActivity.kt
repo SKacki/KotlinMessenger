@@ -1,85 +1,78 @@
-package com.inzynierka.komunikat.Activities
+package com.inzynierka.komunikat.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.inzynierka.komunikat.Activities.NewMessageActivity.Companion.USER_KEY
 import com.inzynierka.komunikat.R
+import com.inzynierka.komunikat.activities.NewMessageActivity.Companion.USER_KEY
 import com.inzynierka.komunikat.classes.Message
 import com.inzynierka.komunikat.classes.MsgThread
-import com.inzynierka.komunikat.classes.User
+import com.inzynierka.komunikat.listeners.SimpleChildEventListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_threads.*
 
-
 class ThreadsActivity : AppCompatActivity() {
 
-    companion object{
-        var user : User? = null
-
-    }
-    val adapter = GroupAdapter<GroupieViewHolder>()
-    val lastMsgMap = HashMap<String, Message>()
+    private val adapter = GroupAdapter<GroupieViewHolder>()
+    private val lastMsgMap = HashMap<String, Message>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_threads)
 
+        verifyIfUserIsLoggedIn()
+
         threads_recycler_view.adapter = adapter
-        threads_recycler_view.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
-        adapter.setOnItemClickListener{ item, view ->
-            val intent = Intent(this,ChatActivity::class.java)
+        threads_recycler_view.addItemDecoration(
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        )
+
+        adapter.setOnItemClickListener { item, view ->
+            val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(USER_KEY, (item as MsgThread).userChattingWith)
             startActivity(intent)
         }
 
-        getCurrentUser()
-        verifyIfUserIsLoggedIn()
         updateLatestMessage()
     }
 
     private fun verifyIfUserIsLoggedIn() {
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
-            val intent = Intent(this, RegisterActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+            startActivity(Intent(this, RegisterActivity::class.java))
+            finish()
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         //switch po itemach w menu nawigacyjnym
-        when (item?.itemId) {
+        return when (item.itemId) {
+            R.id.goToAccount -> {
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
+                true // potwierdzenie, że ta opcja została
+            }
             R.id.menu_new_msg -> {
                 val intent = Intent(this, NewMessageActivity::class.java)
                 startActivity(intent)
+                true
             }
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this, RegisterActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
+                finish()
+                true
             }
-
-            R.id.goToAccount -> {
-                val intent = Intent(this, ProfileActivity::class.java)
-                //intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-            }
-
-
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -87,36 +80,22 @@ class ThreadsActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun getCurrentUser(){
-        val ref = FirebaseDatabase.getInstance().getReference("/users/${FirebaseAuth.getInstance().uid}")
-        ref.addListenerForSingleValueEvent (object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user = snapshot.getValue(User::class.java)
-            }
-            //tutaj nic nie nadpisuję
-            override fun onCancelled(error: DatabaseError) {}
-        })
-
-
-    }
-
-    private fun updateLatestMessage(){
+    private fun updateLatestMessage() {
         val usrUid = FirebaseAuth.getInstance().uid
         val reference = FirebaseDatabase.getInstance().getReference("/last_messages/$usrUid")
-        reference.addChildEventListener(object : ChildEventListener{
+
+        reference.addChildEventListener(object : SimpleChildEventListener() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val message : Message = snapshot.getValue(Message::class.java) ?: return
+                val message: Message = snapshot.getValue(Message::class.java) ?: return
                 lastMsgMap[snapshot.key!!] = message
                 updateRecyclerView()
             }
+
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 val message = snapshot.getValue(Message::class.java) ?: return
                 lastMsgMap[snapshot.key!!] = message
                 updateRecyclerView()
             }
-            override fun onCancelled(error: DatabaseError) {}
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-            override fun onChildRemoved(snapshot: DataSnapshot) {}
         })
     }
 
@@ -124,5 +103,4 @@ class ThreadsActivity : AppCompatActivity() {
         adapter.clear()
         lastMsgMap.values.forEach { adapter.add(MsgThread(it)) }
     }
-
 }

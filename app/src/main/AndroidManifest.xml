@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,69 +14,67 @@
         android:theme="@style/Theme.Komunikat"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.ProfileActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.ThreadsActivity" />
-        </activity>
-        <activity
-            android:name=".Activities.TestActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MessegesActivity" />
-        </activity>
-        <activity
-            android:name=".Activities.ChatActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MessegesActivity" />
-        </activity>
-        <activity
-            android:name=".Activities.NewMessageActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Activities.MessegesActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Activities.ThreadsActivity"
+            android:name=".activities.ThreadsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
         <activity
-            android:name=".Activities.LoginActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Activities.RegisterActivity"
+            android:label="Profil"
+            android:name=".activities.ProfileActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.ThreadsActivity" />
+                android:value=".activities.ThreadsActivity" />
+        </activity>
+        <activity
+            android:label="Znajomi"
+            android:name=".activities.friends.FriendsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ProfileActivity" />
+        </activity>
+        <activity
+            android:label="Dodaj znajomego"
+            android:name=".activities.friends.FriendsAddActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.friends.FriendsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.TestActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MessagesActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ChatActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MessagesActivity" />
+        </activity>
+        <activity
+            android:name=".activities.NewMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MessagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ThreadsActivity" />
         </activity>
     </application>
 

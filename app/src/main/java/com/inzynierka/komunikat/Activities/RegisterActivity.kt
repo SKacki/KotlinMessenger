@@ -1,22 +1,24 @@
-package com.inzynierka.komunikat.Activities
+package com.inzynierka.komunikat.activities
 
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
 import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.User
+import com.inzynierka.komunikat.utils.FirebaseUtils
 import kotlinx.android.synthetic.main.activity_register.*
-import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {
+
+    var photoUri: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -35,17 +37,15 @@ class RegisterActivity : AppCompatActivity() {
         register_photo.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
-            startActivityForResult(intent,0)
+            startActivityForResult(intent, 0)
         }
 
     }
 
-    var photoUri: Uri? = null
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             //ustawianie zdjęcia profilowego
             photoUri = data.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, photoUri)
@@ -54,68 +54,99 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun registerUser(){
-
+    private fun registerUser() {
         val username = register_username.text.toString()
         val password = register_password.text.toString()
         val email = register_email.text.toString()
 
         //walidacja pól
-        if (email.isEmpty() || password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Uzupełnij wymagane pola email/hasło", Toast.LENGTH_SHORT).show()
             return
         }
 
         //dodanie nowego użytkownika do firebase
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if(!it.isSuccessful){
-                    return@addOnCompleteListener
-                }
-                val result = it.result
-                if (result != null) {
-                    if (result.user != null) {
-                        Toast.makeText(this, "Witaj $username :)", Toast.LENGTH_SHORT).show()
-                        uploadPhotoToFB()
+
+        // listener w sytuacji gdy autoryzacja się powiodła
+        val onCompleteLister: (Task<AuthResult>) -> Unit = { taskAuthResult: Task<AuthResult> ->
+            if (!taskAuthResult.isSuccessful) {
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Nie można zarejestrować użytkownika, sprawdź logi",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                taskAuthResult.exception?.printStackTrace()
+            } else {
+
+                // uzyskanie informacji o koncie
+                taskAuthResult.result.user?.let { firebaseUser ->
+                    Toast.makeText(this, "Witaj $username :)", Toast.LENGTH_SHORT).show()
+
+                    // przed dodaniem użytkownika, spróbuj przygotować zdjęcie
+
+                    photoUri?.let { photoUri ->
+
+                        // pobranie URL do obrazka
+                        uploadUserImage(photoUri, firebaseUser.uid) { photoUrl: String? ->
+
+                            // dodanie użytkownika ze zdjęciem lub bez
+                            addUserToFirebase(
+                                User(firebaseUser.uid, username, photoUrl ?: User.DEFAULT_PHOTO)
+                            )
+                        }
+                    } ?: kotlin.run {
+
+                        // dodanie użytkownika bez zdjęcia
+                        addUserToFirebase(
+                            User(firebaseUser.uid, username)
+                        )
                     }
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Ups. Coś poszło nie tak :(", Toast.LENGTH_SHORT).show()
-            }
+        }
+
+        // listener w sytuacji gdy autoryzacja się nie powiodła
+        val onFailureListener: (Exception) -> Unit = {
+            Toast.makeText(this, "Ups. Coś poszło nie tak :(", Toast.LENGTH_SHORT).show()
+            it.printStackTrace()
+        }
+
+        FirebaseAuth.getInstance()
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(onCompleteLister)
+            .addOnFailureListener(onFailureListener)
     }
 
-    private fun uploadPhotoToFB() {
-        if (photoUri == null) return
+    private fun addUserToFirebase(user: User) {
+        FirebaseUtils.addUserToFirebase(user) { result, reason ->
 
-        val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+            // poprawne dodanie użytkownika
+            if (result) {
+                startActivity(Intent(this, ThreadsActivity::class.java))
+                finish()
+            } else { // niepoprawne dodanie użytkownika
 
-        ref.putFile(photoUri!!)
-            .addOnSuccessListener {
-                Log.d("RegisterActivity", "Pomyślnie wysłano plik: ${it.metadata?.path}")
+                // komunikat dla użytkownika
+                Toast.makeText(
+                    this,
+                    "Nie udało się poprawnie stworzyć konta, sprawdź logi",
+                    Toast.LENGTH_SHORT
+                ).show()
 
-                ref.downloadUrl.addOnSuccessListener {
-                    addUserToFB(it.toString())
-                }
+                // komunikat dla developera
+                reason?.printStackTrace()
             }
-            .addOnFailureListener {
-                Log.d("RegisterActivity", "Nie udało się wysłać pliku: ${it.message}")
-            }
+        }
     }
 
-    private fun addUserToFB(photoUrl: String) {
-        val uid = FirebaseAuth.getInstance().uid ?:""
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val user = User(uid,register_username.text.toString(), photoUrl)
-
-        ref.setValue(user)
-            .addOnSuccessListener {
-                //przejdz do profilu (wyczyść przedtem aktywności na stacku
-                val intent = Intent(this, ThreadsActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-            }
+    private fun uploadUserImage(photoUri: Uri, uid: String, callback: (String?) -> Unit) {
+        FirebaseUtils.uploadImage(uid, photoUri) { photoUrl ->
+            callback.invoke(photoUrl)
+        }
     }
 
+    companion object {
+        private const val TAG = "RegisterActivity"
+    }
 }
