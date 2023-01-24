@@ -1,8 +1,7 @@
-package com.inzynierka.komunikat.Activities
+package com.inzynierka.komunikat.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -23,28 +22,35 @@ class LoginActivity : AppCompatActivity() {
         login_redirect_to_register.setOnClickListener {
             finish()
         }
-
     }
 
-    private fun loginUser(){
+    private fun loginUser() {
         val password = login_password.text.toString()
         val email = login_email.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Uzupełnij wymagane pola email/hasło.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Uzupełnij wymagane pola email/hasło.",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
-                if (!it.isSuccessful) return@addOnCompleteListener
-
-                val intent = Intent(this, ThreadsActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                if (!it.isSuccessful) {
+                    return@addOnCompleteListener
+                }
+                startActivity(Intent(this, ThreadsActivity::class.java))
+                finish()
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Ups, coś poszło nie tak: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Ups, coś poszło nie tak: ${it.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 }

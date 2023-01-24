@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_700"
-    tools:context=".Activities.RegisterActivity">
+    tools:context=".activities.RegisterActivity">
 
     <EditText
         android:id="@+id/register_username"
@@ -64,7 +64,7 @@
 
     <Button
         android:id="@+id/register_register_btn"
-        android:backgroundTint = "@color/purple_500"
+        android:backgroundTint="@color/purple_500"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"

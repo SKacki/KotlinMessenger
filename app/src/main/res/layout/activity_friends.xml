@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NewMessageActivity">
+    tools:context=".activities.friends.FriendsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/new_message_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/friends_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingVertical="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

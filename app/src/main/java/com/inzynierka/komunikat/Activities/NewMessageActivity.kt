@@ -1,60 +1,58 @@
-package com.inzynierka.komunikat.Activities
-
+package com.inzynierka.komunikat.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.User
-import com.inzynierka.komunikat.classes.UserItem
+import com.inzynierka.komunikat.classes.UserItemGroupieViewHolder
+import com.inzynierka.komunikat.utils.FirebaseUtils
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_new_message.new_message_recycler_view
+import com.xwray.groupie.Item
+import kotlinx.android.synthetic.main.activity_new_message.*
 
 class NewMessageActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_message)
-
         supportActionBar?.title = "Do kogo piszemy?"
-        getUsers()
+
+        FirebaseUtils.requireCurrentUser { currentUser ->
+            getFriendsList(currentUser)
+        }
     }
 
-    companion object //objekt do przekazania jako extra do następnej aktywności
-    {
-        val USER_KEY = "USER_KEY"
+    private fun getFriendsList(currentUser: User) {
+        FirebaseUtils.getFriendsList(currentUser.uid) { friendsList ->
+            val adapter = GroupAdapter<GroupieViewHolder>()
+            val friendListMapped = friendsList.map { user -> UserItemGroupieViewHolder(user) }
 
-    }
+            adapter.addAll(friendListMapped)
+            adapter.setOnItemClickListener { item: Item<GroupieViewHolder>, view: View ->
 
-    private fun getUsers() {
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+                val userItemGroupieViewHolder =
+                    item as UserItemGroupieViewHolder // trzeba rzutować na userItem, inaczej nie da się przekazać
 
-            override fun onDataChange(p0: DataSnapshot) {
-                val adapter = GroupAdapter<GroupieViewHolder>()
-
-                p0.children.forEach {
-                    val user = it.getValue(User::class.java)
-                    //TODO: do usunięcia z listy aktualnie zalogowany użytkownik
-                    if (user != null) {
-                        adapter.add(UserItem(user))
-                    }
-                    adapter.setOnItemClickListener{item, view ->
-
-                        val userItem = item as UserItem //trzeba rzutować na userItem, inaczej nie da się przekazać
-                        val intent = Intent(view.context, ChatActivity::class.java)
-                        intent.putExtra(USER_KEY, userItem.user) //przekazanie dodatkowych argumentów do intentu
-                        startActivity(intent)
-                        finish() }
+                val intent = Intent(view.context, ChatActivity::class.java).apply {
+                    putExtra( //przekazanie dodatkowych argumentów do intentu
+                        USER_KEY,
+                        userItemGroupieViewHolder.user
+                    )
                 }
-                new_message_recycler_view.adapter = adapter
+
+                startActivity(intent)
+                finish()
             }
 
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+            new_message_recycler_view.adapter = adapter
+        }
+    }
+
+    //obiekt do przekazania jako extra do następnej aktywności
+    companion object {
+        const val USER_KEY = "USER_KEY"
     }
 }
