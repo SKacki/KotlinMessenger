@@ -1,19 +1,27 @@
 package com.inzynierka.komunikat.activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
+import com.inzynierka.komunikat.Core
 import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.activities.NewMessageActivity.Companion.USER_KEY
 import com.inzynierka.komunikat.classes.Message
 import com.inzynierka.komunikat.classes.MsgThread
 import com.inzynierka.komunikat.listeners.SimpleChildEventListener
+import com.inzynierka.komunikat.utils.TOAST_PERMISSIONS_NOT_ALL_GRANTED
+import com.inzynierka.komunikat.utils.makeToastShow
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_threads.*
@@ -29,6 +37,18 @@ class ThreadsActivity : AppCompatActivity() {
 
         verifyIfUserIsLoggedIn()
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionPostNotificationsForTiramisu()
+        } else {
+            onPermissionPostNotificationGranted()
+        }
+
+        setupRecyclerView()
+
+        updateLatestMessage()
+    }
+
+    private fun setupRecyclerView() {
         threads_recycler_view.adapter = adapter
         threads_recycler_view.addItemDecoration(
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
@@ -39,8 +59,45 @@ class ThreadsActivity : AppCompatActivity() {
             intent.putExtra(USER_KEY, (item as MsgThread).userChattingWith)
             startActivity(intent)
         }
+    }
 
-        updateLatestMessage()
+    private fun onPermissionPostNotificationGranted() {
+        (applicationContext as Core).observeFriendsRequests()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestPermissionPostNotificationsForTiramisu() {
+        val permission = Manifest.permission.POST_NOTIFICATIONS
+        val permissionGranted = PackageManager.PERMISSION_GRANTED
+
+        if (ActivityCompat.checkSelfPermission(this, permission) != permissionGranted) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(permission),
+                Companion.REQUEST_PERMISSION_POST_NOTIFICATIONS
+            )
+        } else {
+
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        if (requestCode == Companion.REQUEST_PERMISSION_POST_NOTIFICATIONS) {
+            grantResults.forEach { grantResult ->
+                if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                    makeToastShow(TOAST_PERMISSIONS_NOT_ALL_GRANTED)
+                    finish()
+                }
+
+                onPermissionPostNotificationGranted()
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
     }
 
     private fun verifyIfUserIsLoggedIn() {
@@ -102,5 +159,9 @@ class ThreadsActivity : AppCompatActivity() {
     private fun updateRecyclerView() {
         adapter.clear()
         lastMsgMap.values.forEach { adapter.add(MsgThread(it)) }
+    }
+
+    companion object {
+        private const val REQUEST_PERMISSION_POST_NOTIFICATIONS = 100
     }
 }

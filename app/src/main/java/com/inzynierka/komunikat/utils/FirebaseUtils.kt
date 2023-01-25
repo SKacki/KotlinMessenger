@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.inzynierka.komunikat.classes.FriendsRequestState
 import com.inzynierka.komunikat.classes.User
 import com.inzynierka.komunikat.listeners.SimpleValueEventListener
 
@@ -24,7 +25,7 @@ object FirebaseUtils {
      *
      * @param callback funkcja zwrotna, która przyjmuje obiekt typu User jako argument
      */
-    fun requireCurrentUser(callback: (currentUser: User) -> Unit) {
+    fun requireCurrentUser(callback: (currentUser: User?) -> Unit) {
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val uid = FirebaseAuth.getInstance().uid
         val ref = firebaseDatabase.getReference("/users/$uid")
@@ -32,7 +33,7 @@ object FirebaseUtils {
         ref.addListenerForSingleValueEvent(object : SimpleValueEventListener() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val value = snapshot.getValue(User::class.java)
-                value?.let(callback)
+                callback.invoke(value)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -55,7 +56,11 @@ object FirebaseUtils {
      * @param callback Funkcja wywoływana zwrotnie, która przyjmuje jako
      * argument listę obiektów [User] reprezentujących znajomych użytkownika.
      */
-    fun observeFriendsList(uid: String, callback: (List<User>) -> Unit) {
+    fun observeFriendsList(
+        uid: String,
+        filterFriendsRequestState: FriendsRequestState? = null,
+        callback: (List<User>) -> Unit,
+    ) {
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val ref = firebaseDatabase.getReference("/users/$uid/friends/")
 
@@ -69,18 +74,30 @@ object FirebaseUtils {
                     }
                 }
 
-                callback.invoke(friendList)
+                filterFriendsRequestState?.let {
+                    val filter = friendList.filter { ff ->
+                        FriendsRequestState.toState(ff.friendsRequestState) == filterFriendsRequestState
+                    }
+                    callback.invoke(filter)
+                } ?: run {
+                    callback.invoke(friendList)
+                }
             }
         })
     }
 
     /**
-     * Pobiera listę znajomych dla danego użytkownika z Firebase Database.
+     * Funkcja getFriendsList pobiera listę znajomych dla danego użytkownika z bazy danych Firebase.
      *
-     * @param uid ID użytkownika, dla którego ma zostać pobrana lista znajomych.
-     * @param callback Funkcja zwrotna, która zostanie wywołana z listą znajomych.
+     * @param uid - unikalny identyfikator użytkownika, dla którego chcemy pobrać listę znajomych.
+     * @param filterFriendsRequestState - opcjonalny parametr do filtrowania listy znajomych według stanu zaproszenia do znajomości.
+     * @param callback - funkcja, która zostanie wywołana po pobraniu listy znajomych.
      */
-    fun getFriendsList(uid: String, callback: (List<User>) -> Unit) {
+    fun getFriendsList(
+        uid: String,
+        filterFriendsRequestState: FriendsRequestState? = null,
+        callback: (List<User>) -> Unit,
+    ) {
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val ref = firebaseDatabase.getReference("/users/$uid/friends/")
 
@@ -94,7 +111,14 @@ object FirebaseUtils {
                     }
                 }
 
-                callback.invoke(friendList)
+                filterFriendsRequestState?.let {
+                    val filter = friendList.filter { ff ->
+                        FriendsRequestState.toState(ff.friendsRequestState) == filterFriendsRequestState
+                    }
+                    callback.invoke(filter)
+                } ?: run {
+                    callback.invoke(friendList)
+                }
             }
         })
     }
@@ -152,6 +176,30 @@ object FirebaseUtils {
     }
 
     /**
+     * Funkcja requireUser pobiera dane użytkownika z bazy danych Firebase i przekazuje je do funkcji callback.
+     *
+     * @param user - obiekt klasy User zawierający uid użytkownika, dla którego chcemy pobrać dane.
+     * @param callback - funkcja, która zostanie wywołana po pobraniu danych użytkownika.
+     * Funkcja przyjmuje jeden parametr - obiekt klasy User lub null, jeśli użytkownik nie istnieje.
+     */
+    fun requireUser(user: User, callback: (currentUser: User?) -> Unit) {
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        val ref = firebaseDatabase.getReference("/users/${user.uid}")
+
+        ref.addListenerForSingleValueEvent(object : SimpleValueEventListener() {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val value = snapshot.getValue(User::class.java)
+                callback.invoke(value)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                super.onCancelled(error)
+                Log.e("requireCurrentUser", "onCancelled: $error")
+            }
+        })
+    }
+
+    /**
      * Funkcja służąca do dodawania użytkownika do bazy danych Firebase
      * @param user - obiekt użytkownika do dodania
      * @param callback - funkcja callback informująca o powodzeniu
@@ -182,7 +230,7 @@ object FirebaseUtils {
      * oznaczającą pomyślność usunięcia oraz obiektem java.lang.Exception zawierającym
      * powód niepowodzenia, jeśli takie istnieje.
      */
-    fun deleteUser(
+    fun deleteFriend(
         currentUser: User,
         otherUser: User,
         callback: (status: Boolean, reason: java.lang.Exception?) -> Unit,
@@ -192,6 +240,34 @@ object FirebaseUtils {
             firebaseDatabase.getReference("/users/${currentUser.uid}/friends/${otherUser.uid}")
 
         ref.removeValue()
+            .addOnSuccessListener {
+                callback.invoke(true, null)
+            }
+            .addOnFailureListener {
+                callback.invoke(false, it)
+            }
+    }
+
+    /**
+     * Funkcja acceptFriend akceptuje zaproszenie do znajomości pomiędzy dwoma użytkownikami w bazie danych Firebase.
+     *
+     * @param currentUser - obiekt klasy User reprezentujący konkretnego użytkownika.
+     * @param otherUser - obiekt klasy User reprezentujący użytkownika, który jest
+     * na liście zaproszonych użytkownika [currentUser].
+     * @param callback - funkcja, która zostanie wywołana po zakończeniu operacji.
+     * Funkcja przyjmuje dwa parametry - status Boolean oznaczający czy operacja się powiodła
+     * oraz obiekt klasy Exception lub null, jeśli operacja się powiodła.
+     */
+    fun acceptFriend(
+        currentUser: User,
+        otherUser: User,
+        callback: (status: Boolean, reason: java.lang.Exception?) -> Unit,
+    ) {
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        val ref =
+            firebaseDatabase.getReference("/users/${currentUser.uid}/friends/${otherUser.uid}")
+
+        ref.child("friendsRequestState").setValue(FriendsRequestState.ACCEPTED.state)
             .addOnSuccessListener {
                 callback.invoke(true, null)
             }

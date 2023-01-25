@@ -13,6 +13,8 @@ import com.inzynierka.komunikat.classes.ChatMsgToItem
 import com.inzynierka.komunikat.classes.Message
 import com.inzynierka.komunikat.classes.User
 import com.inzynierka.komunikat.utils.FirebaseUtils
+import com.inzynierka.komunikat.utils.TOAST_USER_UID_NON_EXISTS
+import com.inzynierka.komunikat.utils.makeToastShow
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -39,8 +41,12 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        FirebaseUtils.requireCurrentUser { user ->
-            refreshMessages(user)
+        FirebaseUtils.requireCurrentUser { currentUser ->
+            if (currentUser == null) {
+                makeToastShow(TOAST_USER_UID_NON_EXISTS)
+            } else {
+                refreshMessages(currentUser)
+            }
         }
     }
 
@@ -74,7 +80,7 @@ class ChatActivity : AppCompatActivity() {
         recycler_view_chat.scrollToPosition(adapter.itemCount - 1)
     }
 
-    private fun refreshMessages(sender : User) {
+    private fun refreshMessages(sender: User) {
         //sender/recipient = fromId/toId
         val ref = FirebaseDatabase.getInstance()
             .getReference("/messages/${sender.uid}/${recipient?.uid}")
