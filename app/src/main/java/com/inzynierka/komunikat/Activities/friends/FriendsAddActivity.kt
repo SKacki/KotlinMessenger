@@ -16,8 +16,8 @@ class FriendsAddActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFriendsAddBinding
 
-    private val friendUid
-        get() = binding.friendsUid.text.toString()
+    private val friendsName
+        get() = binding.friendsName.text.toString()
 
     private var currentUser2: User? = null
     private var requestedUser2: User? = null
@@ -25,12 +25,72 @@ class FriendsAddActivity : AppCompatActivity() {
     private val bothUsersExists = MutableLiveData(0)
     private val bothInvitationSent = MutableLiveData(0)
 
+    private val activityResultLauncher =
+        registerForActivityResult(FriendsInviteActivityResultContract()) { invitedUser ->
+
+            // Nie uzyskano użytkownika, np. anulowano, kliknięto wstecz
+            if (invitedUser == null) {
+                return@registerForActivityResult
+            }
+
+            // Sprawdzenie czy nowy użytkownik istnieje
+            requireUser(invitedUser)
+
+            // Sprawdzenie czy obecny użytkownik istnieje
+            requireCurrentUser()
+        }
+
+    private fun requireCurrentUser() {
+        FirebaseUtils.requireCurrentUser { user ->
+            if (user != null) {
+                currentUser2 = user
+                bothUsersExists.value = bothUsersExists.value?.plus(1)
+            } else
+                makeToastShow(TOAST_CURRENT_USER_UID_NON_EXISTS)
+        }
+    }
+
+    private fun requireUser(invitedUser: User) {
+        FirebaseUtils.requireUser(invitedUser) { user ->
+            if (user != null) {
+                requestedUser2 = user
+                bothUsersExists.value = bothUsersExists.value?.plus(1)
+            } else
+                makeToastShow(TOAST_USER_UID_NON_EXISTS)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityFriendsAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        registerObservers()
+
+        binding.friendsSearchBtn.setOnClickListener {
+            onFriendsAddButtonClicked()
+        }
+    }
+
+    private fun onFriendsAddButtonClicked() {
+        // Reset wartości dla obserwatorów
+        resetObservers()
+
+        // Walidacja, przerwij jeśli false
+        if (validateInputFields()) {
+            return
+        }
+
+        // Uruchomienie aktywności do szukania znajomych, oczekiwanie na rezultat
+        startActivityForResult()
+    }
+
+    private fun startActivityForResult() {
+        activityResultLauncher.launch(friendsName)
+    }
+
+    private fun registerObservers() {
         bothUsersExists.observe(this) {
             Log.i(TAG, "bothUsersExists = $it")
 
@@ -47,42 +107,22 @@ class FriendsAddActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                finish()
+                //finish()
             }
         }
+    }
 
-        binding.friendsAddBtn.setOnClickListener {
-            // Reset wartości dla obserwatorów
-            bothUsersExists.value = 0
-            bothInvitationSent.value = 0
-
-            // Walidacja
-            if (friendUid.isEmptyOrBlank()) {
-                makeToastShow(TOAST_BOTH_FIELDS_NEED_TO_BE_FILLED)
-                return@setOnClickListener
-            }
-
-            // Stworzenie informacji o nowym użytkowniku
-            val requestedUser = User(friendUid)
-
-            // Sprawdzenie czy nowy użytkownik istnieje
-            FirebaseUtils.requireUser(requestedUser) { user ->
-                if (user != null) {
-                    requestedUser2 = user
-                    bothUsersExists.value = bothUsersExists.value?.plus(1)
-                } else
-                    makeToastShow(TOAST_USER_UID_NON_EXISTS)
-            }
-
-            // Sprawdzenie czy obecny użytkownik istnieje
-            FirebaseUtils.requireCurrentUser { user ->
-                if (user != null) {
-                    currentUser2 = user
-                    bothUsersExists.value = bothUsersExists.value?.plus(1)
-                } else
-                    makeToastShow(TOAST_CURRENT_USER_UID_NON_EXISTS)
-            }
+    private fun validateInputFields(): Boolean {
+        if (friendsName.isEmptyOrBlank()) {
+            makeToastShow(TOAST_FIELD_NAME_NEEDS_TO_BE_FILLED)
+            return true
         }
+        return false
+    }
+
+    private fun resetObservers() {
+        bothUsersExists.value = 0
+        bothInvitationSent.value = 0
     }
 
     private fun onBothUsersExist() {
@@ -130,5 +170,8 @@ class FriendsAddActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "FriendsAddActivity"
+        private const val SEARCH_PHRASE = "SEARCH_PHRASE"
+        private const val INVITED_USER = "INVITED USER"
     }
 }
+

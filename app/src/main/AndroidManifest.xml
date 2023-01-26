@@ -40,7 +40,15 @@
                 android:value=".activities.ProfileActivity" />
         </activity>
         <activity
-            android:label="Dodaj znajomego"
+            android:label="Wyślij zaproszenie"
+            android:name=".activities.friends.FriendsInviteActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.friends.FriendsAddActivity" />
+        </activity>
+        <activity
+            android:label="Szukaj znajomego"
             android:name=".activities.friends.FriendsAddActivity"
             android:exported="false">
             <meta-data
