@@ -11,6 +11,8 @@ import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.activities.friends.FriendsActivity
 import com.inzynierka.komunikat.classes.User
 import com.inzynierka.komunikat.utils.FirebaseUtils
+import com.inzynierka.komunikat.utils.TOAST_USER_UID_NON_EXISTS
+import com.inzynierka.komunikat.utils.makeToastShow
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -27,8 +29,12 @@ class ProfileActivity : AppCompatActivity() {
         //profil użytkownika z możliwością edycji danych
 
         FirebaseUtils.requireCurrentUser { currentUser ->
-            Picasso.get().load(currentUser.photoUrl).into(profile_profile_picture)
-            profile_user_name.text = currentUser.name
+            if (currentUser == null) {
+                makeToastShow(TOAST_USER_UID_NON_EXISTS)
+            } else {
+                Picasso.get().load(currentUser.photoUrl).into(profile_profile_picture)
+                profile_user_name.text = currentUser.name
+            }
         }
 
         profile_firends_list_btn.setOnClickListener {

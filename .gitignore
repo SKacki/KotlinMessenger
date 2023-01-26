@@ -1,5 +1,6 @@
 *.iml
 .gradle
+
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -7,11 +8,15 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+
 .DS_Store
+
 /build
 /captures
+
 .externalNativeBuild
 .cxx
+
 local.properties
 app/google-services.json
 
@@ -20,17 +25,20 @@ app/google-services.json
 *.aar
 *.ap_
 *.aab
+
 # Files for the ART/Dalvik VM
 *.dex
 # Java class files
 *.class
+
 # Generated files
 bin/
 gen/
 out/
 build
-# Created by .ignore support plugin (hsz.mobi)
+
 ### Android template
+
 # Built application files
 *.apk
 *.aar
@@ -47,6 +55,7 @@ build
 bin/
 gen/
 out/
+
 #  Uncomment the following line in case you need and you don't have the release build type files in your app
 # release/
 
@@ -63,4 +72,6 @@ proguard/
 # Log Files
 *.log
 
-
+.idea/dictionaries/
+.idea/misc.xml
+.idea/deploymentTargetDropDown.xml

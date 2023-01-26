@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.inzynierka.komunikat.classes.User
 import com.inzynierka.komunikat.databinding.FriendsRowBinding
 
-class FriendsRowAdapter(private val callback: (user: User) -> Unit) :
+class FriendsRowAdapter(
+    private val callbackDelete: (user: User) -> Unit,
+    private val callbackAccept: (user: User) -> Unit,
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var adapterFriendList = mutableListOf<User>()
@@ -17,7 +20,11 @@ class FriendsRowAdapter(private val callback: (user: User) -> Unit) :
             parent,
             false
         )
-        return FriendsRowViewHolder(friendsRowBinding, callback)
+        return FriendsRowViewHolder(
+            friendsRowBinding,
+            callbackDelete,
+            callbackAccept
+        )
     }
 
     override fun getItemCount(): Int {

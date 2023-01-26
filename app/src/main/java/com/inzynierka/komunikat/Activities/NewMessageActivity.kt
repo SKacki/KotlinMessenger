@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.inzynierka.komunikat.R
+import com.inzynierka.komunikat.classes.FriendsRequestState
 import com.inzynierka.komunikat.classes.User
 import com.inzynierka.komunikat.classes.UserItemGroupieViewHolder
 import com.inzynierka.komunikat.utils.FirebaseUtils
+import com.inzynierka.komunikat.utils.TOAST_USER_UID_NON_EXISTS
+import com.inzynierka.komunikat.utils.makeToastShow
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -21,12 +24,19 @@ class NewMessageActivity : AppCompatActivity() {
         supportActionBar?.title = "Do kogo piszemy?"
 
         FirebaseUtils.requireCurrentUser { currentUser ->
-            getFriendsList(currentUser)
+            if (currentUser == null) {
+                makeToastShow(TOAST_USER_UID_NON_EXISTS)
+            } else {
+                observeFriendsList(currentUser)
+            }
         }
     }
 
-    private fun getFriendsList(currentUser: User) {
-        FirebaseUtils.getFriendsList(currentUser.uid) { friendsList ->
+    private fun observeFriendsList(currentUser: User) {
+        FirebaseUtils.observeFriendsList(
+            uid = currentUser.uid,
+            filterFriendsRequestState = FriendsRequestState.ACCEPTED
+        ) { friendsList ->
             val adapter = GroupAdapter<GroupieViewHolder>()
             val friendListMapped = friendsList.map { user -> UserItemGroupieViewHolder(user) }
 
