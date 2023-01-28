@@ -275,4 +275,38 @@ object FirebaseUtils {
                 callback.invoke(false, it)
             }
     }
+
+    /**
+     * Funkcja pobiera listę użytkowników z bazy danych Firebase.
+     *
+     * @param filters lista filtrów, które mają być zastosowane do pobranej listy użytkowników. Jeśli jest null, nie zostanie zastosowany żaden filtr.
+     * @param callback funkcja, która zostanie wywołana po pobraniu danych z bazy danych. Parametrem tej funkcji jest lista użytkowników, która została pobrana i (jeśli zostały ustawione filtry) przefiltrowana.
+     */
+    fun getUsers(filters: List<GetUsersFilter>?, callback: (List<User>) -> Unit) {
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        val ref = firebaseDatabase.getReference("/users/")
+
+        ref.addListenerForSingleValueEvent(object : SimpleValueEventListener() {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val userList = mutableListOf<User>()
+
+                for (postSnapshot in snapshot.children) {
+                    postSnapshot.getValue(User::class.java)?.let { user ->
+                        userList.add(user)
+                    }
+                }
+
+                filters?.let {
+                    it.forEach { filter ->
+                        val filteredList = filter.filter(userList)
+                        userList.clear()
+                        userList.addAll(filteredList)
+                    }
+                }
+
+                callback.invoke(userList)
+            }
+        })
+    }
+
 }

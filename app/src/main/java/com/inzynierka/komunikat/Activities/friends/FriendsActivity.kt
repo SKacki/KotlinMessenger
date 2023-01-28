@@ -23,7 +23,7 @@ class FriendsActivity : AppCompatActivity() {
         // Pobranie aktualnego użytkownika
         FirebaseUtils.requireCurrentUser { currentUser ->
             if (currentUser == null) {
-                makeToastShow(TOAST_USER_UID_NON_EXISTS)
+                makeToastShow(TOAST_CURRENT_USER_UID_NON_EXISTS)
             } else {
                 setupRecyclerView(currentUser)
                 observerFriendsList(currentUser)

@@ -4,6 +4,6 @@
     <item
         android:id="@+id/goToAddFriend"
         android:icon="@drawable/ic_person_add"
-        android:title="Dodaj znajomego"
+        android:title="Szukaj znajomego"
         app:showAsAction="ifRoom" />
 </menu>
