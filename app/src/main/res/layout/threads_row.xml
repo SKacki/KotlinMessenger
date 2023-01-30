@@ -15,7 +15,7 @@
         android:maxWidth="240dp"
         android:padding="8dp"
         android:text="Sample Title"
-        android:textSize="24dp"
+        android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/thread_last_msg"
         app:layout_constraintStart_toEndOf="@+id/thread_picture"

@@ -11,12 +11,12 @@ class FriendsInviteRowViewHolder(
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(user: User) = with(binding) {
-        friendName.text = user.name
-        friendsUid.text = user.uid
+        inviteFriendName.text = user.name
+        inviteFriendsUid.text = user.uid
 
-        Picasso.get().load(user.photoUrl).into(binding.friendsImage)
+        Picasso.get().load(user.photoUrl).into(binding.inviteFriendsImage)
 
-        friendsInviteBtn.setOnClickListener {
+        inviteBtn.setOnClickListener {
             callbackInvite.invoke(user)
         }
     }
