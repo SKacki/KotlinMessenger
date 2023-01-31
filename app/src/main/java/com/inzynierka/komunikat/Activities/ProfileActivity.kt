@@ -34,6 +34,7 @@ class ProfileActivity : AppCompatActivity() {
             } else {
                 Picasso.get().load(currentUser.photoUrl).into(profile_profile_picture)
                 profile_user_name.text = currentUser.name
+                profile_email.text = FirebaseAuth.getInstance().currentUser?.email.toString()
             }
         }
 
@@ -57,8 +58,9 @@ class ProfileActivity : AppCompatActivity() {
 
         FirebaseAuth.getInstance().signOut()
 
-        val deletedUsrPhoto =
-            "https://firebasestorage.googleapis.com/v0/b/komunikat-ccfa2.appspot.com/o/images%2Ff4e19f25-15d7-48a3-ad1e-4d15f5e3a3f5?alt=media&token=640d83cf-cbf8-405c-af11-3760a134b6a8"
+
+
+        val deletedUsrPhoto = "https://firebasestorage.googleapis.com/v0/b/komunikat-ccfa2.appspot.com/o/images%2Fdefault_photo%2Fdefault_user.jpg?alt=media&token=a0d6d572-bed7-49c5-b563-b546183f773a"
         val deletedUser: User = User(currentUserUid!!, "Deleted User", deletedUsrPhoto)
 
         val userRef = FirebaseDatabase.getInstance().getReference("/users/$currentUserUid")

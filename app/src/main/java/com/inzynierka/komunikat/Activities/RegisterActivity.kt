@@ -24,7 +24,6 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         register_register_btn.setOnClickListener {
-            //rejestracja
             registerUser()
         }
 
