@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.database.FirebaseDatabase
+import com.inzynierka.komunikat.Activities.messages.ThreadsActivity
 import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.Friend
 import kotlinx.android.synthetic.main.activity_test.*

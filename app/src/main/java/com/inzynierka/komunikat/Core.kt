@@ -12,7 +12,6 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.inzynierka.komunikat.activities.ThreadsActivity
 import com.inzynierka.komunikat.activities.friends.FriendsActivity
 import com.inzynierka.komunikat.classes.FriendsRequestState
 import com.inzynierka.komunikat.classes.User

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".Core"
         android:allowBackup="true"
@@ -15,7 +16,21 @@
         android:theme="@style/Theme.Komunikat"
         tools:targetApi="31">
         <activity
-            android:name=".activities.ThreadsActivity"
+            android:name=".WelcomeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Activities.messages.MessagesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Activities.messages.ThreadsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,33 +39,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="Profil"
-            android:name=".activities.ProfileActivity"
-            android:exported="false">
+            android:name=".Activities.profile.ProfileActivity"
+            android:exported="false"
+            android:label="Profil">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ThreadsActivity" />
+                android:value=".Activities.messages.ThreadsActivity" />
         </activity>
         <activity
-            android:label="Znajomi"
             android:name=".activities.friends.FriendsActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="Znajomi">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ProfileActivity" />
+                android:value=".Activities.profile.ProfileActivity" />
         </activity>
         <activity
-            android:label="Wyślij zaproszenie"
             android:name=".activities.friends.FriendsInviteActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="Wyślij zaproszenie">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.friends.FriendsAddActivity" />
         </activity>
         <activity
-            android:label="Szukaj znajomego"
             android:name=".activities.friends.FriendsAddActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="Szukaj znajomego">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.friends.FriendsActivity" />
@@ -63,27 +78,27 @@
                 android:value=".activities.MessagesActivity" />
         </activity>
         <activity
-            android:name=".activities.ChatActivity"
+            android:name=".Activities.messages.ChatActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MessagesActivity" />
         </activity>
         <activity
-            android:name=".activities.NewMessageActivity"
+            android:name=".Activities.messages.NewMessageActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MessagesActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".Activities.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name=".Activities.auth.RegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ThreadsActivity" />
+                android:value=".Activities.messages.ThreadsActivity" />
         </activity>
     </application>
 
