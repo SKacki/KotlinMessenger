@@ -54,7 +54,7 @@ class FriendsInviteActivity : AppCompatActivity() {
     private fun getUserList(currentUser: User, searchUserName: String) {
         FirebaseUtils.getUsers(
             listOf(
-                FilterUsersByNameStartingWith(searchUserName),
+                FilterUsersByNameContaining(searchUserName),
                 FilterOutUser(currentUser)
             )
         ) { friendList ->

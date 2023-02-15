@@ -24,7 +24,21 @@ interface GetUsersFilter {
 class FilterUsersByNameStartingWith(val searchUserName: String) : GetUsersFilter {
     override fun filter(userList: List<User>): List<User> {
         return userList.filter { ff ->
-            ff.name.contains(searchUserName)   //startsWith(searchUserName)
+            ff.name.startsWith(searchUserName)
+        }
+    }
+}
+
+/**
+ * Klasa filtrująca listę użytkowników po imieniu.
+ * Filtruje tylko te użytkowników, których nazwa zawiera podany ciąg znaków.
+ *
+ * @param searchUserName ciąg znaków, który ma zawierać nazwa użytkowników przechodzących filtr
+ */
+class FilterUsersByNameContaining(val searchUserName: String) : GetUsersFilter {
+    override fun filter(userList: List<User>): List<User> {
+        return userList.filter { ff ->
+            ff.name.startsWith(searchUserName)   //startsWith(searchUserName)
         }
     }
 }
