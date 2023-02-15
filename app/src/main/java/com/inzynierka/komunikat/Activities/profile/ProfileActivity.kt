@@ -36,6 +36,7 @@ class ProfileActivity : AppCompatActivity() {
                 Picasso.get().load(currentUser.photoUrl).into(profile_profile_picture)
                 profile_user_name.text = currentUser.name
                 profile_email.text = FirebaseAuth.getInstance().currentUser?.email.toString()
+                profile_status.text = currentUser.description
             }
         }
 

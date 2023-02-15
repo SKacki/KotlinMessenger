@@ -38,7 +38,7 @@ class FilterUsersByNameStartingWith(val searchUserName: String) : GetUsersFilter
 class FilterUsersByNameContaining(val searchUserName: String) : GetUsersFilter {
     override fun filter(userList: List<User>): List<User> {
         return userList.filter { ff ->
-            ff.name.startsWith(searchUserName)   //startsWith(searchUserName)
+            ff.name.contains(searchUserName)
         }
     }
 }

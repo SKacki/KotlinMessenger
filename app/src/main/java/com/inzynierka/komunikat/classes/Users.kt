@@ -15,6 +15,7 @@ data class User(
     val photoUrl: String = DEFAULT_PHOTO,
     val friends: Map<String, User> = mapOf(),
     val friendsRequestState: Int = 0,
+    val description: String = ""
 ) : Parcelable {
 
     companion object {

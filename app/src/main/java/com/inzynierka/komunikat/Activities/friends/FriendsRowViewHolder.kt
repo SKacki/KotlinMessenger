@@ -15,7 +15,7 @@ class FriendsRowViewHolder(
     RecyclerView.ViewHolder(binding.root) {
     fun onBind(user: User) = with(binding) {
         inviteFriendName.text = user.name
-        inviteFriendsUid.text = user.uid
+        inviteFriendsDescription.text = user.description
 
         Picasso.get().load(user.photoUrl).into(binding.inviteFriendsImage)
 

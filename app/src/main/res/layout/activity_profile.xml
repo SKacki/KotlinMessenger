@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark"
     tools:context=".Activities.profile.ProfileActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -32,6 +33,7 @@
         android:textIsSelectable="true"
         android:textSize="12dp"
         android:textStyle="bold"
+        android:background="@drawable/round_msg_box"
         app:layout_constraintEnd_toEndOf="@+id/profile_profile_picture"
         app:layout_constraintStart_toStartOf="@+id/profile_profile_picture"
         app:layout_constraintTop_toBottomOf="@+id/profile_profile_picture" />
@@ -40,7 +42,7 @@
         android:id="@+id/profile_firends_list_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="@color/purple_500"
         android:text="Znajomi"
         android:textSize="12dp"
@@ -73,9 +75,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:minHeight="25dp"
-        android:minWidth="150dp"
+        android:background="@drawable/round_msg_box"
         android:maxWidth="250dp"
+        android:minWidth="150dp"
+        android:minHeight="25dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/Black"
+        android:textColorHint="@color/Black"
+        android:textIsSelectable="true"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/profile_status"
+        app:layout_constraintStart_toStartOf="@+id/profile_status"
+        app:layout_constraintTop_toBottomOf="@+id/profile_status" />
+
+    <TextView
+        android:id="@+id/profile_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_msg_box"
+        android:maxWidth="250dp"
+        android:minWidth="150dp"
+        android:minHeight="25dp"
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/Black"
