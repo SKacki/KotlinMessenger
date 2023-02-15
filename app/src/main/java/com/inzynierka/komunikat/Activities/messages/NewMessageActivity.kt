@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.FriendsRequestState
 import com.inzynierka.komunikat.classes.User
 import com.inzynierka.komunikat.classes.UserItemGroupieViewHolder
+import com.inzynierka.komunikat.databinding.ActivityNewMessageBinding
 import com.inzynierka.komunikat.utils.FirebaseUtils
 import com.inzynierka.komunikat.utils.TOAST_USER_UID_NON_EXISTS
 import com.inzynierka.komunikat.utils.makeToastShow
@@ -18,9 +18,13 @@ import kotlinx.android.synthetic.main.activity_new_message.*
 
 class NewMessageActivity : AppCompatActivity() {
 
+    private lateinit var binding : ActivityNewMessageBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_message)
+        binding = ActivityNewMessageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         supportActionBar?.title = "Do kogo piszemy?"
 
         FirebaseUtils.requireCurrentUser { currentUser ->

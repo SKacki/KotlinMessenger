@@ -8,11 +8,11 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.ChatMsgFromItem
 import com.inzynierka.komunikat.classes.ChatMsgToItem
 import com.inzynierka.komunikat.classes.Message
 import com.inzynierka.komunikat.classes.User
+import com.inzynierka.komunikat.databinding.ActivityChatBinding
 import com.inzynierka.komunikat.utils.FirebaseUtils
 import com.inzynierka.komunikat.utils.TOAST_USER_UID_NON_EXISTS
 import com.inzynierka.komunikat.utils.makeToastShow
@@ -24,11 +24,12 @@ class ChatActivity : AppCompatActivity() {
 
     val adapter = GroupAdapter<GroupieViewHolder>()
     var recipient: User? = null
-    //val sender: User? = ThreadsActivity.user //nie wiem czy to czegoś nie wysadzi :)
+    private lateinit var binding: ActivityChatBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat)
+        binding = ActivityChatBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         recipient = intent.getParcelableExtra(NewMessageActivity.USER_KEY)
         supportActionBar?.title = recipient?.name

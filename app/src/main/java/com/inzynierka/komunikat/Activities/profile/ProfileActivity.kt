@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.inzynierka.komunikat.Activities.auth.RegisterActivity
-import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.activities.friends.FriendsActivity
 import com.inzynierka.komunikat.classes.User
+import com.inzynierka.komunikat.databinding.ActivityProfileBinding
 import com.inzynierka.komunikat.utils.FirebaseUtils
 import com.inzynierka.komunikat.utils.TOAST_USER_UID_NON_EXISTS
 import com.inzynierka.komunikat.utils.makeToastShow
@@ -22,11 +22,13 @@ import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityProfileBinding
     val adapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         //profil użytkownika z możliwością edycji danych
 
         FirebaseUtils.requireCurrentUser { currentUser ->

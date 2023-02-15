@@ -21,6 +21,7 @@ import com.inzynierka.komunikat.Core
 import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.Message
 import com.inzynierka.komunikat.classes.MsgThread
+import com.inzynierka.komunikat.databinding.ActivityThreadsBinding
 import com.inzynierka.komunikat.listeners.SimpleChildEventListener
 import com.inzynierka.komunikat.utils.TOAST_PERMISSIONS_NOT_ALL_GRANTED
 import com.inzynierka.komunikat.utils.makeToastShow
@@ -30,12 +31,14 @@ import kotlinx.android.synthetic.main.activity_threads.*
 
 class ThreadsActivity : AppCompatActivity() {
 
+    private lateinit var binding : ActivityThreadsBinding
     private val adapter = GroupAdapter<GroupieViewHolder>()
     private val lastMsgMap = HashMap<String, Message>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_threads)
+        binding = ActivityThreadsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         verifyIfUserIsLoggedIn()
 

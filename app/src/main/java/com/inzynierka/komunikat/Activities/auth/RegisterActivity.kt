@@ -11,18 +11,20 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.inzynierka.komunikat.Activities.messages.ThreadsActivity
-import com.inzynierka.komunikat.R
 import com.inzynierka.komunikat.classes.User
+import com.inzynierka.komunikat.databinding.ActivityRegisterBinding
 import com.inzynierka.komunikat.utils.FirebaseUtils
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityRegisterBinding
     var photoUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         register_register_btn.setOnClickListener {
             registerUser()
